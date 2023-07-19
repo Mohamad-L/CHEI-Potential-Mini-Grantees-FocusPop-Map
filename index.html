@@ -1,0 +1,2297 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/filter.css">
+<link rel="stylesheet" href="css/nouislider.min.css">
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+        <title>CHEI Finalized First Round of Potential Mini Grantees (with an emphasis on FocusPop)</title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="js/proj4.js"></script>
+        <script src="js/proj4leaflet.js"></script>
+        <script src="js/tailDT.js"></script>
+<script src="js/nouislider.min.js"></script>
+<script src="js/wNumb.js"></script>
+        <script src="data/MAMunicipalitiesOutline_1.js"></script>
+        <script src="data/MAOutline_2.js"></script>
+        <script src="data/YouthandYoungAdults1424_3.js"></script>
+        <script src="data/YoungParents_4.js"></script>
+        <script src="data/Veterans_5.js"></script>
+        <script src="data/UnhousedPeople_6.js"></script>
+        <script src="data/RuralResidents_7.js"></script>
+        <script src="data/PeoplewithDisabilitiesStatewide_8.js"></script>
+        <script src="data/PeoplewithDisabilities_9.js"></script>
+        <script src="data/PeoplewhoseprimarylanguageisntEnglish_10.js"></script>
+        <script src="data/PeopleofColor_11.js"></script>
+        <script src="data/ParentsPregnantPeopleFamilies_12.js"></script>
+        <script src="data/Parentsofchildrenwithspecialhealthcareneeds_13.js"></script>
+        <script src="data/OlderAdultsAge60_14.js"></script>
+        <script src="data/LGBTQIA_15.js"></script>
+        <script src="data/Immigrants_16.js"></script>
+        <script src="data/FormerlyIncarcerated_17.js"></script>
+        <script src="data/CommunityMembersGeneral_18.js"></script>
+        <script>
+        var highlightLayer;
+        function highlightFeature(e) {
+            highlightLayer = e.target;
+
+            if (e.target.feature.geometry.type === 'LineString') {
+              highlightLayer.setStyle({
+                color: '#fb9a99',
+              });
+            } else {
+              highlightLayer.setStyle({
+                fillColor: '#fb9a99',
+                fillOpacity: 1
+              });
+            }
+            highlightLayer.openPopup();
+        }
+        var crs = new L.Proj.CRS('EPSG:26986', '+proj=lcc +lat_0=41 +lon_0=-71.5 +lat_1=42.6833333333333 +lat_2=41.7166666666667 +x_0=200000 +y_0=750000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs', {
+            resolutions: [2800, 1400, 700, 350, 175, 84, 42, 21, 11.2, 5.6, 2.8, 1.4, 0.7, 0.35, 0.14, 0.07],
+        });
+        var map = L.map('map', {
+            crs: crs,
+            continuousWorld: false,
+            worldCopyJump: false, 
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[41.12709252757907,-74.4751522392709],[43.71820065237521,-68.12810765828804]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+        }
+        map.createPane('pane_Positron_0');
+        map.getPane('pane_Positron_0').style.zIndex = 400;
+        var layer_Positron_0 = L.tileLayer('https://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+            pane: 'pane_Positron_0',
+            opacity: 1.0,
+            attribution: '<a href="https://cartodb.com/basemaps/">Map tiles by CartoDB, under CC BY 3.0. Data by OpenStreetMap, under ODbL.</a>',
+            minZoom: 1,
+            maxZoom: 28,
+            minNativeZoom: 0,
+            maxNativeZoom: 20
+        });
+        layer_Positron_0;
+        map.addLayer(layer_Positron_0);
+        function pop_MAMunicipalitiesOutline_1(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['BND_QUAL'] !== null ? autolinker.link(feature.properties['BND_QUAL'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FINISHED'] !== null ? autolinker.link(feature.properties['FINISHED'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['BND_UNCLAS'] !== null ? autolinker.link(feature.properties['BND_UNCLAS'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['REASON'] !== null ? autolinker.link(feature.properties['REASON'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['OUTLINE'] !== null ? autolinker.link(feature.properties['OUTLINE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['SHAPE_LEN'] !== null ? autolinker.link(feature.properties['SHAPE_LEN'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_MAMunicipalitiesOutline_1_0() {
+            return {
+                pane: 'pane_MAMunicipalitiesOutline_1',
+                opacity: 1,
+                color: 'rgba(196,60,57,0.2627450980392157)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 1.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+        }
+        map.createPane('pane_MAMunicipalitiesOutline_1');
+        map.getPane('pane_MAMunicipalitiesOutline_1').style.zIndex = 401;
+        map.getPane('pane_MAMunicipalitiesOutline_1').style['mix-blend-mode'] = 'normal';
+        var layer_MAMunicipalitiesOutline_1 = new L.geoJson(json_MAMunicipalitiesOutline_1, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_MAMunicipalitiesOutline_1',
+            layerName: 'layer_MAMunicipalitiesOutline_1',
+            pane: 'pane_MAMunicipalitiesOutline_1',
+            onEachFeature: pop_MAMunicipalitiesOutline_1,
+            style: style_MAMunicipalitiesOutline_1_0,
+        });
+        bounds_group.addLayer(layer_MAMunicipalitiesOutline_1);
+        map.addLayer(layer_MAMunicipalitiesOutline_1);
+        function pop_MAOutline_2(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FNODE_'] !== null ? autolinker.link(feature.properties['FNODE_'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['TNODE_'] !== null ? autolinker.link(feature.properties['TNODE_'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['LPOLY_'] !== null ? autolinker.link(feature.properties['LPOLY_'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['RPOLY_'] !== null ? autolinker.link(feature.properties['RPOLY_'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['LENGTH'] !== null ? autolinker.link(feature.properties['LENGTH'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['OUTLINE_'] !== null ? autolinker.link(feature.properties['OUTLINE_'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['OUTLINE_ID'] !== null ? autolinker.link(feature.properties['OUTLINE_ID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['SYMBOL'] !== null ? autolinker.link(feature.properties['SYMBOL'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_MAOutline_2_0() {
+            return {
+                pane: 'pane_MAOutline_2',
+                opacity: 1,
+                color: 'rgba(232,113,141,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 1.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+        }
+        map.createPane('pane_MAOutline_2');
+        map.getPane('pane_MAOutline_2').style.zIndex = 402;
+        map.getPane('pane_MAOutline_2').style['mix-blend-mode'] = 'normal';
+        var layer_MAOutline_2 = new L.geoJson(json_MAOutline_2, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_MAOutline_2',
+            layerName: 'layer_MAOutline_2',
+            pane: 'pane_MAOutline_2',
+            onEachFeature: pop_MAOutline_2,
+            style: style_MAOutline_2_0,
+        });
+        bounds_group.addLayer(layer_MAOutline_2);
+        map.addLayer(layer_MAOutline_2);
+        function pop_YouthandYoungAdults1424_3(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Municipality</th>\
+                        <td>' + (feature.properties['TOWN'] !== null ? autolinker.link(feature.properties['TOWN'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Organization Name</th>\
+                        <td>' + (feature.properties['Organization Name'] !== null ? autolinker.link(feature.properties['Organization Name'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Secondary Population (if applicable)</th>\
+                        <td>' + (feature.properties['Secondary Population (if applicable)'] !== null ? autolinker.link(feature.properties['Secondary Population (if applicable)'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Race/Ethnicity (BROAD)</th>\
+                        <td>' + (feature.properties['Race/Ethnicity (BROAD)'] !== null ? autolinker.link(feature.properties['Race/Ethnicity (BROAD)'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Ethnicities</th>\
+                        <td>' + (feature.properties['Ethnicities'] !== null ? autolinker.link(feature.properties['Ethnicities'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_YouthandYoungAdults1424_3_0(feature) {
+            switch(String(feature.properties['Organization Name'])) {
+                case '18 Degrees':
+                    return {
+                pane: 'pane_YouthandYoungAdults1424_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(113,59,230,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Justice Resource Institute':
+                    return {
+                pane: 'pane_YouthandYoungAdults1424_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(238,18,58,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Worcester Youth Center':
+                    return {
+                pane: 'pane_YouthandYoungAdults1424_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(42,240,204,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_YouthandYoungAdults1424_3');
+        map.getPane('pane_YouthandYoungAdults1424_3').style.zIndex = 403;
+        map.getPane('pane_YouthandYoungAdults1424_3').style['mix-blend-mode'] = 'normal';
+        var layer_YouthandYoungAdults1424_3 = new L.geoJson(json_YouthandYoungAdults1424_3, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_YouthandYoungAdults1424_3',
+            layerName: 'layer_YouthandYoungAdults1424_3',
+            pane: 'pane_YouthandYoungAdults1424_3',
+            onEachFeature: pop_YouthandYoungAdults1424_3,
+            style: style_YouthandYoungAdults1424_3_0,
+        });
+        bounds_group.addLayer(layer_YouthandYoungAdults1424_3);
+        function pop_YoungParents_4(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Municipality</th>\
+                        <td>' + (feature.properties['TOWN'] !== null ? autolinker.link(feature.properties['TOWN'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Organization Name</th>\
+                        <td>' + (feature.properties['Organization Name'] !== null ? autolinker.link(feature.properties['Organization Name'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Secondary Population (if applicable)</th>\
+                        <td>' + (feature.properties['Secondary Population (if applicable)'] !== null ? autolinker.link(feature.properties['Secondary Population (if applicable)'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Race/Ethnicity (BROAD)</th>\
+                        <td>' + (feature.properties['Race/Ethnicity (BROAD)'] !== null ? autolinker.link(feature.properties['Race/Ethnicity (BROAD)'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Ethnicities</th>\
+                        <td>' + (feature.properties['Ethnicities'] !== null ? autolinker.link(feature.properties['Ethnicities'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_YoungParents_4_0(feature) {
+            switch(String(feature.properties['Organization Name'])) {
+                case 'Healthy Families':
+                    return {
+                pane: 'pane_YoungParents_4',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(128,214,97,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'ROCA':
+                    return {
+                pane: 'pane_YoungParents_4',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(54,95,206,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_YoungParents_4');
+        map.getPane('pane_YoungParents_4').style.zIndex = 404;
+        map.getPane('pane_YoungParents_4').style['mix-blend-mode'] = 'normal';
+        var layer_YoungParents_4 = new L.geoJson(json_YoungParents_4, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_YoungParents_4',
+            layerName: 'layer_YoungParents_4',
+            pane: 'pane_YoungParents_4',
+            onEachFeature: pop_YoungParents_4,
+            style: style_YoungParents_4_0,
+        });
+        bounds_group.addLayer(layer_YoungParents_4);
+        function pop_Veterans_5(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Municipality </th>\
+                        <td>' + (feature.properties['TOWN'] !== null ? autolinker.link(feature.properties['TOWN'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Organization Name</th>\
+                        <td>' + (feature.properties['Organization Name'] !== null ? autolinker.link(feature.properties['Organization Name'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Secondary Population (if applicable)</th>\
+                        <td>' + (feature.properties['Secondary Population (if applicable)'] !== null ? autolinker.link(feature.properties['Secondary Population (if applicable)'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Race/Ethnicity (BROAD)</th>\
+                        <td>' + (feature.properties['Race/Ethnicity (BROAD)'] !== null ? autolinker.link(feature.properties['Race/Ethnicity (BROAD)'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Ethnicities</th>\
+                        <td>' + (feature.properties['Ethnicities'] !== null ? autolinker.link(feature.properties['Ethnicities'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Veterans_5_0(feature) {
+            switch(String(feature.properties['Organization Name'])) {
+                case 'New England Center and Home for Veterans':
+                    return {
+                pane: 'pane_Veterans_5',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(42,167,234,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_Veterans_5');
+        map.getPane('pane_Veterans_5').style.zIndex = 405;
+        map.getPane('pane_Veterans_5').style['mix-blend-mode'] = 'normal';
+        var layer_Veterans_5 = new L.geoJson(json_Veterans_5, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Veterans_5',
+            layerName: 'layer_Veterans_5',
+            pane: 'pane_Veterans_5',
+            onEachFeature: pop_Veterans_5,
+            style: style_Veterans_5_0,
+        });
+        bounds_group.addLayer(layer_Veterans_5);
+        function pop_UnhousedPeople_6(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Municipality</th>\
+                        <td>' + (feature.properties['TOWN'] !== null ? autolinker.link(feature.properties['TOWN'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Organization Name</th>\
+                        <td>' + (feature.properties['Organization Name'] !== null ? autolinker.link(feature.properties['Organization Name'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Secondary Population (if applicable)</th>\
+                        <td>' + (feature.properties['Secondary Population (if applicable)'] !== null ? autolinker.link(feature.properties['Secondary Population (if applicable)'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Race/Ethnicity (BROAD)</th>\
+                        <td>' + (feature.properties['Race/Ethnicity (BROAD)'] !== null ? autolinker.link(feature.properties['Race/Ethnicity (BROAD)'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Ethnicities</th>\
+                        <td>' + (feature.properties['Ethnicities'] !== null ? autolinker.link(feature.properties['Ethnicities'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_UnhousedPeople_6_0(feature) {
+            switch(String(feature.properties['Organization Name'])) {
+                case 'Justice 4 Housing':
+                    return {
+                pane: 'pane_UnhousedPeople_6',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(174,137,233,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_UnhousedPeople_6');
+        map.getPane('pane_UnhousedPeople_6').style.zIndex = 406;
+        map.getPane('pane_UnhousedPeople_6').style['mix-blend-mode'] = 'normal';
+        var layer_UnhousedPeople_6 = new L.geoJson(json_UnhousedPeople_6, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_UnhousedPeople_6',
+            layerName: 'layer_UnhousedPeople_6',
+            pane: 'pane_UnhousedPeople_6',
+            onEachFeature: pop_UnhousedPeople_6,
+            style: style_UnhousedPeople_6_0,
+        });
+        bounds_group.addLayer(layer_UnhousedPeople_6);
+        function pop_RuralResidents_7(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Municipality</th>\
+                        <td>' + (feature.properties['TOWN'] !== null ? autolinker.link(feature.properties['TOWN'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Organization Name</th>\
+                        <td>' + (feature.properties['Organization Name'] !== null ? autolinker.link(feature.properties['Organization Name'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Secondary Population (if applicable)</th>\
+                        <td>' + (feature.properties['Secondary Population (if applicable)'] !== null ? autolinker.link(feature.properties['Secondary Population (if applicable)'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Race/Ethnicity (BROAD)</th>\
+                        <td>' + (feature.properties['Race/Ethnicity (BROAD)'] !== null ? autolinker.link(feature.properties['Race/Ethnicity (BROAD)'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Ethnicities</th>\
+                        <td>' + (feature.properties['Ethnicities'] !== null ? autolinker.link(feature.properties['Ethnicities'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_RuralResidents_7_0(feature) {
+            switch(String(feature.properties['Organization Name'])) {
+                case 'Hilltown CDC':
+                    return {
+                pane: 'pane_RuralResidents_7',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(112,203,195,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Mary Lyon Foundation':
+                    return {
+                pane: 'pane_RuralResidents_7',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(141,163,235,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'North Quabbin Community Coalition':
+                    return {
+                pane: 'pane_RuralResidents_7',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(241,17,253,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Northern Berkshire Community Coalition':
+                    return {
+                pane: 'pane_RuralResidents_7',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(218,28,126,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Quaboag Valley CDC':
+                    return {
+                pane: 'pane_RuralResidents_7',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(69,140,63,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Volunteers in Medicine':
+                    return {
+                pane: 'pane_RuralResidents_7',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(9,79,132,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_RuralResidents_7');
+        map.getPane('pane_RuralResidents_7').style.zIndex = 407;
+        map.getPane('pane_RuralResidents_7').style['mix-blend-mode'] = 'normal';
+        var layer_RuralResidents_7 = new L.geoJson(json_RuralResidents_7, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_RuralResidents_7',
+            layerName: 'layer_RuralResidents_7',
+            pane: 'pane_RuralResidents_7',
+            onEachFeature: pop_RuralResidents_7,
+            style: style_RuralResidents_7_0,
+        });
+        bounds_group.addLayer(layer_RuralResidents_7);
+        function pop_PeoplewithDisabilitiesStatewide_8(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">NAME</th>\
+                        <td>' + (feature.properties['NAME'] !== null ? autolinker.link(feature.properties['NAME'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Organization Name</th>\
+                        <td>' + (feature.properties['Organization Name'] !== null ? autolinker.link(feature.properties['Organization Name'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Secondary Population (if applicable)</th>\
+                        <td>' + (feature.properties['Secondary Population (if applicable)'] !== null ? autolinker.link(feature.properties['Secondary Population (if applicable)'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Race/Ethnicity (BROAD)</th>\
+                        <td>' + (feature.properties['Race/Ethnicity (BROAD)'] !== null ? autolinker.link(feature.properties['Race/Ethnicity (BROAD)'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Ethnicities</th>\
+                        <td>' + (feature.properties['Ethnicities'] !== null ? autolinker.link(feature.properties['Ethnicities'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_PeoplewithDisabilitiesStatewide_8_0(feature) {
+            switch(String(feature.properties['Organization Name'])) {
+                case 'Black Autism Coalition':
+                    return {
+                pane: 'pane_PeoplewithDisabilitiesStatewide_8',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(39,94,203,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'DEAF Inc':
+                    return {
+                pane: 'pane_PeoplewithDisabilitiesStatewide_8',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(200,111,212,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Disability Policy Consortium':
+                    return {
+                pane: 'pane_PeoplewithDisabilitiesStatewide_8',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(223,32,15,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Fundacion CEMDPCD':
+                    return {
+                pane: 'pane_PeoplewithDisabilitiesStatewide_8',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(113,214,160,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_PeoplewithDisabilitiesStatewide_8');
+        map.getPane('pane_PeoplewithDisabilitiesStatewide_8').style.zIndex = 408;
+        map.getPane('pane_PeoplewithDisabilitiesStatewide_8').style['mix-blend-mode'] = 'normal';
+        var layer_PeoplewithDisabilitiesStatewide_8 = new L.geoJson(json_PeoplewithDisabilitiesStatewide_8, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_PeoplewithDisabilitiesStatewide_8',
+            layerName: 'layer_PeoplewithDisabilitiesStatewide_8',
+            pane: 'pane_PeoplewithDisabilitiesStatewide_8',
+            onEachFeature: pop_PeoplewithDisabilitiesStatewide_8,
+            style: style_PeoplewithDisabilitiesStatewide_8_0,
+        });
+        bounds_group.addLayer(layer_PeoplewithDisabilitiesStatewide_8);
+        function pop_PeoplewithDisabilities_9(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Municipality</th>\
+                        <td>' + (feature.properties['TOWN'] !== null ? autolinker.link(feature.properties['TOWN'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Organization Name</th>\
+                        <td>' + (feature.properties['Organization Name'] !== null ? autolinker.link(feature.properties['Organization Name'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Secondary Population (if applicable)</th>\
+                        <td>' + (feature.properties['Secondary Population (if applicable)'] !== null ? autolinker.link(feature.properties['Secondary Population (if applicable)'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Race/Ethnicity (BROAD)</th>\
+                        <td>' + (feature.properties['Race/Ethnicity (BROAD)'] !== null ? autolinker.link(feature.properties['Race/Ethnicity (BROAD)'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Ethnicities</th>\
+                        <td>' + (feature.properties['Ethnicities'] !== null ? autolinker.link(feature.properties['Ethnicities'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_PeoplewithDisabilities_9_0(feature) {
+            switch(String(feature.properties['Organization Name'])) {
+                case 'Advocates':
+                    return {
+                pane: 'pane_PeoplewithDisabilities_9',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(222,123,164,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'BAMSI':
+                    return {
+                pane: 'pane_PeoplewithDisabilities_9',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(71,229,108,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Seven Hills':
+                    return {
+                pane: 'pane_PeoplewithDisabilities_9',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(67,208,194,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Stavros Center for Independent Living':
+                    return {
+                pane: 'pane_PeoplewithDisabilities_9',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(150,230,93,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_PeoplewithDisabilities_9');
+        map.getPane('pane_PeoplewithDisabilities_9').style.zIndex = 409;
+        map.getPane('pane_PeoplewithDisabilities_9').style['mix-blend-mode'] = 'normal';
+        var layer_PeoplewithDisabilities_9 = new L.geoJson(json_PeoplewithDisabilities_9, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_PeoplewithDisabilities_9',
+            layerName: 'layer_PeoplewithDisabilities_9',
+            pane: 'pane_PeoplewithDisabilities_9',
+            onEachFeature: pop_PeoplewithDisabilities_9,
+            style: style_PeoplewithDisabilities_9_0,
+        });
+        bounds_group.addLayer(layer_PeoplewithDisabilities_9);
+        function pop_PeoplewhoseprimarylanguageisntEnglish_10(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Municipality</th>\
+                        <td>' + (feature.properties['TOWN'] !== null ? autolinker.link(feature.properties['TOWN'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Organization Name</th>\
+                        <td>' + (feature.properties['Organization Name'] !== null ? autolinker.link(feature.properties['Organization Name'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Secondary Population (if applicable)</th>\
+                        <td>' + (feature.properties['Secondary Population (if applicable)'] !== null ? autolinker.link(feature.properties['Secondary Population (if applicable)'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Race/Ethnicity (BROAD)</th>\
+                        <td>' + (feature.properties['Race/Ethnicity (BROAD)'] !== null ? autolinker.link(feature.properties['Race/Ethnicity (BROAD)'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Ethnicities</th>\
+                        <td>' + (feature.properties['Ethnicities'] !== null ? autolinker.link(feature.properties['Ethnicities'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_PeoplewhoseprimarylanguageisntEnglish_10_0(feature) {
+            switch(String(feature.properties['Organization Name'])) {
+                case 'Massachusetts Alliance for Portuguese Speakers':
+                    return {
+                pane: 'pane_PeoplewhoseprimarylanguageisntEnglish_10',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(228,140,38,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Spanish American Center':
+                    return {
+                pane: 'pane_PeoplewhoseprimarylanguageisntEnglish_10',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(167,80,239,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_PeoplewhoseprimarylanguageisntEnglish_10');
+        map.getPane('pane_PeoplewhoseprimarylanguageisntEnglish_10').style.zIndex = 410;
+        map.getPane('pane_PeoplewhoseprimarylanguageisntEnglish_10').style['mix-blend-mode'] = 'normal';
+        var layer_PeoplewhoseprimarylanguageisntEnglish_10 = new L.geoJson(json_PeoplewhoseprimarylanguageisntEnglish_10, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_PeoplewhoseprimarylanguageisntEnglish_10',
+            layerName: 'layer_PeoplewhoseprimarylanguageisntEnglish_10',
+            pane: 'pane_PeoplewhoseprimarylanguageisntEnglish_10',
+            onEachFeature: pop_PeoplewhoseprimarylanguageisntEnglish_10,
+            style: style_PeoplewhoseprimarylanguageisntEnglish_10_0,
+        });
+        bounds_group.addLayer(layer_PeoplewhoseprimarylanguageisntEnglish_10);
+        function pop_PeopleofColor_11(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Municipality</th>\
+                        <td>' + (feature.properties['TOWN'] !== null ? autolinker.link(feature.properties['TOWN'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Organization Name</th>\
+                        <td>' + (feature.properties['Organization Name'] !== null ? autolinker.link(feature.properties['Organization Name'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Secondary Population (if applicable)</th>\
+                        <td>' + (feature.properties['Secondary Population (if applicable)'] !== null ? autolinker.link(feature.properties['Secondary Population (if applicable)'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Race/Ethnicity (BROAD)</th>\
+                        <td>' + (feature.properties['Race/Ethnicity (BROAD)'] !== null ? autolinker.link(feature.properties['Race/Ethnicity (BROAD)'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Ethnicities</th>\
+                        <td>' + (feature.properties['Ethnicities'] !== null ? autolinker.link(feature.properties['Ethnicities'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_PeopleofColor_11_0(feature) {
+            switch(String(feature.properties['Organization Name'])) {
+                case 'Asian Task Force Against Domestic Violence':
+                    return {
+                pane: 'pane_PeopleofColor_11',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(39,234,133,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Boston Chinatown Neighborhood Center':
+                    return {
+                pane: 'pane_PeopleofColor_11',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(89,194,204,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Center for Arabic Culture':
+                    return {
+                pane: 'pane_PeopleofColor_11',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(26,81,201,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Chappaquiddick Wampanoag Tribe':
+                    return {
+                pane: 'pane_PeopleofColor_11',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(132,86,240,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Haitian Community Partners Foundation':
+                    return {
+                pane: 'pane_PeopleofColor_11',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(234,199,124,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Herring Pond Wampanoag Tribe':
+                    return {
+                pane: 'pane_PeopleofColor_11',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(229,121,177,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Islamic Society of Boston CC':
+                    return {
+                pane: 'pane_PeopleofColor_11',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(160,209,36,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'La Colaborativa':
+                    return {
+                pane: 'pane_PeopleofColor_11',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(219,217,125,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Latino Education Institute':
+                    return {
+                pane: 'pane_PeopleofColor_11',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(82,167,220,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Latinx in Action':
+                    return {
+                pane: 'pane_PeopleofColor_11',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(170,87,226,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Men of Color Health Awareness (MOCHA)':
+                    return {
+                pane: 'pane_PeopleofColor_11',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(216,105,231,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Muslim Community Link':
+                    return {
+                pane: 'pane_PeopleofColor_11',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(211,56,183,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Nipmuc Nation':
+                    return {
+                pane: 'pane_PeopleofColor_11',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(107,218,92,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'North American Indian Center of Boston':
+                    return {
+                pane: 'pane_PeopleofColor_11',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(106,223,198,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Ohketeau Cultural Center':
+                    return {
+                pane: 'pane_PeopleofColor_11',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(201,123,74,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'PureSpark':
+                    return {
+                pane: 'pane_PeopleofColor_11',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(215,124,116,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Quincy Asian Resources Inc QARI':
+                    return {
+                pane: 'pane_PeopleofColor_11',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(103,105,238,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Somali Parents Advocacy Center for Education (SPACE)':
+                    return {
+                pane: 'pane_PeopleofColor_11',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(35,231,71,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'VietAID':
+                    return {
+                pane: 'pane_PeopleofColor_11',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(203,89,114,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_PeopleofColor_11');
+        map.getPane('pane_PeopleofColor_11').style.zIndex = 411;
+        map.getPane('pane_PeopleofColor_11').style['mix-blend-mode'] = 'normal';
+        var layer_PeopleofColor_11 = new L.geoJson(json_PeopleofColor_11, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_PeopleofColor_11',
+            layerName: 'layer_PeopleofColor_11',
+            pane: 'pane_PeopleofColor_11',
+            onEachFeature: pop_PeopleofColor_11,
+            style: style_PeopleofColor_11_0,
+        });
+        bounds_group.addLayer(layer_PeopleofColor_11);
+        function pop_ParentsPregnantPeopleFamilies_12(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Municipality</th>\
+                        <td>' + (feature.properties['TOWN'] !== null ? autolinker.link(feature.properties['TOWN'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Organization Name</th>\
+                        <td>' + (feature.properties['Organization Name'] !== null ? autolinker.link(feature.properties['Organization Name'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Secondary Population (if applicable)</th>\
+                        <td>' + (feature.properties['Secondary Population (if applicable)'] !== null ? autolinker.link(feature.properties['Secondary Population (if applicable)'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Race/Ethnicity (BROAD)</th>\
+                        <td>' + (feature.properties['Race/Ethnicity (BROAD)'] !== null ? autolinker.link(feature.properties['Race/Ethnicity (BROAD)'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Ethnicities</th>\
+                        <td>' + (feature.properties['Ethnicities'] !== null ? autolinker.link(feature.properties['Ethnicities'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_ParentsPregnantPeopleFamilies_12_0(feature) {
+            switch(String(feature.properties['Organization Name'])) {
+                case 'Enlace de Familias':
+                    return {
+                pane: 'pane_ParentsPregnantPeopleFamilies_12',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(211,17,95,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Family Services of the Merrimack Valley':
+                    return {
+                pane: 'pane_ParentsPregnantPeopleFamilies_12',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(114,212,48,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_ParentsPregnantPeopleFamilies_12');
+        map.getPane('pane_ParentsPregnantPeopleFamilies_12').style.zIndex = 412;
+        map.getPane('pane_ParentsPregnantPeopleFamilies_12').style['mix-blend-mode'] = 'normal';
+        var layer_ParentsPregnantPeopleFamilies_12 = new L.geoJson(json_ParentsPregnantPeopleFamilies_12, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_ParentsPregnantPeopleFamilies_12',
+            layerName: 'layer_ParentsPregnantPeopleFamilies_12',
+            pane: 'pane_ParentsPregnantPeopleFamilies_12',
+            onEachFeature: pop_ParentsPregnantPeopleFamilies_12,
+            style: style_ParentsPregnantPeopleFamilies_12_0,
+        });
+        bounds_group.addLayer(layer_ParentsPregnantPeopleFamilies_12);
+        function pop_Parentsofchildrenwithspecialhealthcareneeds_13(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Municipality</th>\
+                        <td>' + (feature.properties['TOWN'] !== null ? autolinker.link(feature.properties['TOWN'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Organization Name</th>\
+                        <td>' + (feature.properties['Organization Name'] !== null ? autolinker.link(feature.properties['Organization Name'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Secondary Population (if applicable)</th>\
+                        <td>' + (feature.properties['Secondary Population (if applicable)'] !== null ? autolinker.link(feature.properties['Secondary Population (if applicable)'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Race/Ethnicity (BROAD)</th>\
+                        <td>' + (feature.properties['Race/Ethnicity (BROAD)'] !== null ? autolinker.link(feature.properties['Race/Ethnicity (BROAD)'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Ethnicities</th>\
+                        <td>' + (feature.properties['Ethnicities'] !== null ? autolinker.link(feature.properties['Ethnicities'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Parentsofchildrenwithspecialhealthcareneeds_13_0(feature) {
+            switch(String(feature.properties['Organization Name'])) {
+                case 'Federation for Children with Special Needs':
+                    return {
+                pane: 'pane_Parentsofchildrenwithspecialhealthcareneeds_13',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(37,203,98,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_Parentsofchildrenwithspecialhealthcareneeds_13');
+        map.getPane('pane_Parentsofchildrenwithspecialhealthcareneeds_13').style.zIndex = 413;
+        map.getPane('pane_Parentsofchildrenwithspecialhealthcareneeds_13').style['mix-blend-mode'] = 'normal';
+        var layer_Parentsofchildrenwithspecialhealthcareneeds_13 = new L.geoJson(json_Parentsofchildrenwithspecialhealthcareneeds_13, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Parentsofchildrenwithspecialhealthcareneeds_13',
+            layerName: 'layer_Parentsofchildrenwithspecialhealthcareneeds_13',
+            pane: 'pane_Parentsofchildrenwithspecialhealthcareneeds_13',
+            onEachFeature: pop_Parentsofchildrenwithspecialhealthcareneeds_13,
+            style: style_Parentsofchildrenwithspecialhealthcareneeds_13_0,
+        });
+        bounds_group.addLayer(layer_Parentsofchildrenwithspecialhealthcareneeds_13);
+        function pop_OlderAdultsAge60_14(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Municipality</th>\
+                        <td>' + (feature.properties['TOWN'] !== null ? autolinker.link(feature.properties['TOWN'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Organization Name</th>\
+                        <td>' + (feature.properties['Organization Name'] !== null ? autolinker.link(feature.properties['Organization Name'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Secondary Population (if applicable)</th>\
+                        <td>' + (feature.properties['Secondary Population (if applicable)'] !== null ? autolinker.link(feature.properties['Secondary Population (if applicable)'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Race/Ethnicity (BROAD)</th>\
+                        <td>' + (feature.properties['Race/Ethnicity (BROAD)'] !== null ? autolinker.link(feature.properties['Race/Ethnicity (BROAD)'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Ethnicities</th>\
+                        <td>' + (feature.properties['Ethnicities'] !== null ? autolinker.link(feature.properties['Ethnicities'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_OlderAdultsAge60_14_0(feature) {
+            switch(String(feature.properties['Organization Name'])) {
+                case 'LGBT Elders of Color':
+                    return {
+                pane: 'pane_OlderAdultsAge60_14',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(239,100,137,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'New American Association of MA':
+                    return {
+                pane: 'pane_OlderAdultsAge60_14',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(139,224,111,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_OlderAdultsAge60_14');
+        map.getPane('pane_OlderAdultsAge60_14').style.zIndex = 414;
+        map.getPane('pane_OlderAdultsAge60_14').style['mix-blend-mode'] = 'normal';
+        var layer_OlderAdultsAge60_14 = new L.geoJson(json_OlderAdultsAge60_14, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_OlderAdultsAge60_14',
+            layerName: 'layer_OlderAdultsAge60_14',
+            pane: 'pane_OlderAdultsAge60_14',
+            onEachFeature: pop_OlderAdultsAge60_14,
+            style: style_OlderAdultsAge60_14_0,
+        });
+        bounds_group.addLayer(layer_OlderAdultsAge60_14);
+        function pop_LGBTQIA_15(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Municipality</th>\
+                        <td>' + (feature.properties['TOWN'] !== null ? autolinker.link(feature.properties['TOWN'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Organization Name</th>\
+                        <td>' + (feature.properties['Organization Name'] !== null ? autolinker.link(feature.properties['Organization Name'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Secondary Population (if applicable)</th>\
+                        <td>' + (feature.properties['Secondary Population (if applicable)'] !== null ? autolinker.link(feature.properties['Secondary Population (if applicable)'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Race/Ethnicity (BROAD)</th>\
+                        <td>' + (feature.properties['Race/Ethnicity (BROAD)'] !== null ? autolinker.link(feature.properties['Race/Ethnicity (BROAD)'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Ethnicities</th>\
+                        <td>' + (feature.properties['Ethnicities'] !== null ? autolinker.link(feature.properties['Ethnicities'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_LGBTQIA_15_0(feature) {
+            switch(String(feature.properties['Organization Name'])) {
+                case 'LGBTQ Asylum Task Force':
+                    return {
+                pane: 'pane_LGBTQIA_15',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(189,71,207,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Multicultural AIDS Coalition':
+                    return {
+                pane: 'pane_LGBTQIA_15',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(229,210,64,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_LGBTQIA_15');
+        map.getPane('pane_LGBTQIA_15').style.zIndex = 415;
+        map.getPane('pane_LGBTQIA_15').style['mix-blend-mode'] = 'normal';
+        var layer_LGBTQIA_15 = new L.geoJson(json_LGBTQIA_15, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_LGBTQIA_15',
+            layerName: 'layer_LGBTQIA_15',
+            pane: 'pane_LGBTQIA_15',
+            onEachFeature: pop_LGBTQIA_15,
+            style: style_LGBTQIA_15_0,
+        });
+        bounds_group.addLayer(layer_LGBTQIA_15);
+        function pop_Immigrants_16(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Municipality</th>\
+                        <td>' + (feature.properties['TOWN'] !== null ? autolinker.link(feature.properties['TOWN'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Organization Name</th>\
+                        <td>' + (feature.properties['Organization Name'] !== null ? autolinker.link(feature.properties['Organization Name'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Secondary Population (if applicable)</th>\
+                        <td>' + (feature.properties['Secondary Population (if applicable)'] !== null ? autolinker.link(feature.properties['Secondary Population (if applicable)'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Race/Ethnicity (BROAD)</th>\
+                        <td>' + (feature.properties['Race/Ethnicity (BROAD)'] !== null ? autolinker.link(feature.properties['Race/Ethnicity (BROAD)'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Ethnicities</th>\
+                        <td>' + (feature.properties['Ethnicities'] !== null ? autolinker.link(feature.properties['Ethnicities'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Immigrants_16_0(feature) {
+            switch(String(feature.properties['Organization Name'])) {
+                case 'Authentic Caribbean Foundation':
+                    return {
+                pane: 'pane_Immigrants_16',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(145,88,238,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Berkshire Immigrant Center':
+                    return {
+                pane: 'pane_Immigrants_16',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(51,221,13,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Cambodian Mutual Assistance Association':
+                    return {
+                pane: 'pane_Immigrants_16',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(28,113,210,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Haitian American Public Health Initiative':
+                    return {
+                pane: 'pane_Immigrants_16',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(33,208,150,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Immigrants Assistance Center, Inc.':
+                    return {
+                pane: 'pane_Immigrants_16',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(216,211,80,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Southeast Asian Coalition of Central MA':
+                    return {
+                pane: 'pane_Immigrants_16',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(210,18,162,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_Immigrants_16');
+        map.getPane('pane_Immigrants_16').style.zIndex = 416;
+        map.getPane('pane_Immigrants_16').style['mix-blend-mode'] = 'normal';
+        var layer_Immigrants_16 = new L.geoJson(json_Immigrants_16, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Immigrants_16',
+            layerName: 'layer_Immigrants_16',
+            pane: 'pane_Immigrants_16',
+            onEachFeature: pop_Immigrants_16,
+            style: style_Immigrants_16_0,
+        });
+        bounds_group.addLayer(layer_Immigrants_16);
+        function pop_FormerlyIncarcerated_17(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Municipality</th>\
+                        <td>' + (feature.properties['TOWN'] !== null ? autolinker.link(feature.properties['TOWN'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Organization Name</th>\
+                        <td>' + (feature.properties['Organization Name'] !== null ? autolinker.link(feature.properties['Organization Name'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Secondary Population (if applicable)</th>\
+                        <td>' + (feature.properties['Secondary Population (if applicable)'] !== null ? autolinker.link(feature.properties['Secondary Population (if applicable)'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Race/Ethnicity (BROAD)</th>\
+                        <td>' + (feature.properties['Race/Ethnicity (BROAD)'] !== null ? autolinker.link(feature.properties['Race/Ethnicity (BROAD)'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Ethnicities</th>\
+                        <td>' + (feature.properties['Ethnicities'] !== null ? autolinker.link(feature.properties['Ethnicities'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_FormerlyIncarcerated_17_0(feature) {
+            switch(String(feature.properties['Organization Name'])) {
+                case 'All Inclusive Support Services':
+                    return {
+                pane: 'pane_FormerlyIncarcerated_17',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(222,88,115,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Father Bill\'s & MainSpring':
+                    return {
+                pane: 'pane_FormerlyIncarcerated_17',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(94,118,213,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_FormerlyIncarcerated_17');
+        map.getPane('pane_FormerlyIncarcerated_17').style.zIndex = 417;
+        map.getPane('pane_FormerlyIncarcerated_17').style['mix-blend-mode'] = 'normal';
+        var layer_FormerlyIncarcerated_17 = new L.geoJson(json_FormerlyIncarcerated_17, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_FormerlyIncarcerated_17',
+            layerName: 'layer_FormerlyIncarcerated_17',
+            pane: 'pane_FormerlyIncarcerated_17',
+            onEachFeature: pop_FormerlyIncarcerated_17,
+            style: style_FormerlyIncarcerated_17_0,
+        });
+        bounds_group.addLayer(layer_FormerlyIncarcerated_17);
+        function pop_CommunityMembersGeneral_18(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Municipality </th>\
+                        <td>' + (feature.properties['TOWN'] !== null ? autolinker.link(feature.properties['TOWN'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Organization Name</th>\
+                        <td>' + (feature.properties['Organization Name'] !== null ? autolinker.link(feature.properties['Organization Name'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Secondary Population (if applicable)</th>\
+                        <td>' + (feature.properties['Secondary Population (if applicable)'] !== null ? autolinker.link(feature.properties['Secondary Population (if applicable)'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Race/Ethnicity (BROAD)</th>\
+                        <td>' + (feature.properties['Race/Ethnicity (BROAD)'] !== null ? autolinker.link(feature.properties['Race/Ethnicity (BROAD)'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Ethnicities</th>\
+                        <td>' + (feature.properties['Ethnicities'] !== null ? autolinker.link(feature.properties['Ethnicities'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_CommunityMembersGeneral_18_0(feature) {
+            switch(String(feature.properties['Organization Name'])) {
+                case 'Health Imperatives':
+                    return {
+                pane: 'pane_CommunityMembersGeneral_18',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(65,229,144,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Outer Cape Health Services			':
+                    return {
+                pane: 'pane_CommunityMembersGeneral_18',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(211,206,73,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Tapestry Health		':
+                    return {
+                pane: 'pane_CommunityMembersGeneral_18',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(238,59,154,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_CommunityMembersGeneral_18');
+        map.getPane('pane_CommunityMembersGeneral_18').style.zIndex = 418;
+        map.getPane('pane_CommunityMembersGeneral_18').style['mix-blend-mode'] = 'normal';
+        var layer_CommunityMembersGeneral_18 = new L.geoJson(json_CommunityMembersGeneral_18, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_CommunityMembersGeneral_18',
+            layerName: 'layer_CommunityMembersGeneral_18',
+            pane: 'pane_CommunityMembersGeneral_18',
+            onEachFeature: pop_CommunityMembersGeneral_18,
+            style: style_CommunityMembersGeneral_18_0,
+        });
+        bounds_group.addLayer(layer_CommunityMembersGeneral_18);
+            var title = new L.Control();
+            title.onAdd = function (map) {
+                this._div = L.DomUtil.create('div', 'info');
+                this.update();
+                return this._div;
+            };
+            title.update = function () {
+                this._div.innerHTML = '<h2>CHEI Finalized First Round of Potential Mini Grantees (with an emphasis on FocusPop)</h2>';
+            };
+            title.addTo(map);
+            var abstract = new L.Control({'position':'bottomleft'});
+            abstract.onAdd = function (map) {
+                this._div = L.DomUtil.create('div',
+                'leaflet-control abstract');
+                this._div.id = 'abstract'
+
+                    abstract.show();
+                    return this._div;
+                };
+                abstract.show = function () {
+                    this._div.classList.remove("abstract");
+                    this._div.classList.add("abstractUncollapsed");
+                    this._div.innerHTML = 'This is a web map designed to visualize the finalized first round of potential mini grantees, with an emphasis on communities of focus, for the CHEI project in Massachussetts in July 2023. ';
+            };
+            abstract.addTo(map);
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'Community Members (General)<br /><table><tr><td style="text-align: center;"><img src="legend/CommunityMembersGeneral_18_HealthImperatives0.png" /></td><td>Health Imperatives</td></tr><tr><td style="text-align: center;"><img src="legend/CommunityMembersGeneral_18_OuterCapeHealthServices1.png" /></td><td>Outer Cape Health Services			</td></tr><tr><td style="text-align: center;"><img src="legend/CommunityMembersGeneral_18_TapestryHealth2.png" /></td><td>Tapestry Health		</td></tr></table>': layer_CommunityMembersGeneral_18,'Formerly Incarcerated<br /><table><tr><td style="text-align: center;"><img src="legend/FormerlyIncarcerated_17_AllInclusiveSupportServices0.png" /></td><td>All Inclusive Support Services</td></tr><tr><td style="text-align: center;"><img src="legend/FormerlyIncarcerated_17_FatherBillsMainSpring1.png" /></td><td>Father Bill\'s & MainSpring</td></tr></table>': layer_FormerlyIncarcerated_17,'Immigrants<br /><table><tr><td style="text-align: center;"><img src="legend/Immigrants_16_AuthenticCaribbeanFoundation0.png" /></td><td>Authentic Caribbean Foundation</td></tr><tr><td style="text-align: center;"><img src="legend/Immigrants_16_BerkshireImmigrantCenter1.png" /></td><td>Berkshire Immigrant Center</td></tr><tr><td style="text-align: center;"><img src="legend/Immigrants_16_CambodianMutualAssistanceAssociation2.png" /></td><td>Cambodian Mutual Assistance Association</td></tr><tr><td style="text-align: center;"><img src="legend/Immigrants_16_HaitianAmericanPublicHealthInitiative3.png" /></td><td>Haitian American Public Health Initiative</td></tr><tr><td style="text-align: center;"><img src="legend/Immigrants_16_ImmigrantsAssistanceCenterInc4.png" /></td><td>Immigrants Assistance Center, Inc.</td></tr><tr><td style="text-align: center;"><img src="legend/Immigrants_16_SoutheastAsianCoalitionofCentralMA5.png" /></td><td>Southeast Asian Coalition of Central MA</td></tr></table>': layer_Immigrants_16,'LGBTQIA+<br /><table><tr><td style="text-align: center;"><img src="legend/LGBTQIA_15_LGBTQAsylumTaskForce0.png" /></td><td>LGBTQ Asylum Task Force</td></tr><tr><td style="text-align: center;"><img src="legend/LGBTQIA_15_MulticulturalAIDSCoalition1.png" /></td><td>Multicultural AIDS Coalition</td></tr></table>': layer_LGBTQIA_15,'Older Adults (Age 60+)<br /><table><tr><td style="text-align: center;"><img src="legend/OlderAdultsAge60_14_LGBTEldersofColor0.png" /></td><td>LGBT Elders of Color</td></tr><tr><td style="text-align: center;"><img src="legend/OlderAdultsAge60_14_NewAmericanAssociationofMA1.png" /></td><td>New American Association of MA</td></tr></table>': layer_OlderAdultsAge60_14,'Parents of children with special healthcare needs<br /><table><tr><td style="text-align: center;"><img src="legend/Parentsofchildrenwithspecialhealthcareneeds_13_FederationforChildrenwithSpecialNeeds0.png" /></td><td>Federation for Children with Special Needs</td></tr></table>': layer_Parentsofchildrenwithspecialhealthcareneeds_13,'Parents, Pregnant People & Families <br /><table><tr><td style="text-align: center;"><img src="legend/ParentsPregnantPeopleFamilies_12_EnlacedeFamilias0.png" /></td><td>Enlace de Familias</td></tr><tr><td style="text-align: center;"><img src="legend/ParentsPregnantPeopleFamilies_12_FamilyServicesoftheMerrimackValley1.png" /></td><td>Family Services of the Merrimack Valley</td></tr></table>': layer_ParentsPregnantPeopleFamilies_12,'People of Color<br /><table><tr><td style="text-align: center;"><img src="legend/PeopleofColor_11_AsianTaskForceAgainstDomesticViolence0.png" /></td><td>Asian Task Force Against Domestic Violence</td></tr><tr><td style="text-align: center;"><img src="legend/PeopleofColor_11_BostonChinatownNeighborhoodCenter1.png" /></td><td>Boston Chinatown Neighborhood Center</td></tr><tr><td style="text-align: center;"><img src="legend/PeopleofColor_11_CenterforArabicCulture2.png" /></td><td>Center for Arabic Culture</td></tr><tr><td style="text-align: center;"><img src="legend/PeopleofColor_11_ChappaquiddickWampanoagTribe3.png" /></td><td>Chappaquiddick Wampanoag Tribe</td></tr><tr><td style="text-align: center;"><img src="legend/PeopleofColor_11_HaitianCommunityPartnersFoundation4.png" /></td><td>Haitian Community Partners Foundation</td></tr><tr><td style="text-align: center;"><img src="legend/PeopleofColor_11_HerringPondWampanoagTribe5.png" /></td><td>Herring Pond Wampanoag Tribe</td></tr><tr><td style="text-align: center;"><img src="legend/PeopleofColor_11_IslamicSocietyofBostonCC6.png" /></td><td>Islamic Society of Boston CC</td></tr><tr><td style="text-align: center;"><img src="legend/PeopleofColor_11_LaColaborativa7.png" /></td><td>La Colaborativa</td></tr><tr><td style="text-align: center;"><img src="legend/PeopleofColor_11_LatinoEducationInstitute8.png" /></td><td>Latino Education Institute</td></tr><tr><td style="text-align: center;"><img src="legend/PeopleofColor_11_LatinxinAction9.png" /></td><td>Latinx in Action</td></tr><tr><td style="text-align: center;"><img src="legend/PeopleofColor_11_MenofColorHealthAwarenessMOCHA10.png" /></td><td>Men of Color Health Awareness (MOCHA)</td></tr><tr><td style="text-align: center;"><img src="legend/PeopleofColor_11_MuslimCommunityLink11.png" /></td><td>Muslim Community Link</td></tr><tr><td style="text-align: center;"><img src="legend/PeopleofColor_11_NipmucNation12.png" /></td><td>Nipmuc Nation</td></tr><tr><td style="text-align: center;"><img src="legend/PeopleofColor_11_NorthAmericanIndianCenterofBoston13.png" /></td><td>North American Indian Center of Boston</td></tr><tr><td style="text-align: center;"><img src="legend/PeopleofColor_11_OhketeauCulturalCenter14.png" /></td><td>Ohketeau Cultural Center</td></tr><tr><td style="text-align: center;"><img src="legend/PeopleofColor_11_PureSpark15.png" /></td><td>PureSpark</td></tr><tr><td style="text-align: center;"><img src="legend/PeopleofColor_11_QuincyAsianResourcesIncQARI16.png" /></td><td>Quincy Asian Resources Inc QARI</td></tr><tr><td style="text-align: center;"><img src="legend/PeopleofColor_11_SomaliParentsAdvocacyCenterforEducationSPACE17.png" /></td><td>Somali Parents Advocacy Center for Education (SPACE)</td></tr><tr><td style="text-align: center;"><img src="legend/PeopleofColor_11_VietAID18.png" /></td><td>VietAID</td></tr></table>': layer_PeopleofColor_11,'People whose primary language isn\'t English<br /><table><tr><td style="text-align: center;"><img src="legend/PeoplewhoseprimarylanguageisntEnglish_10_MassachusettsAllianceforPortugueseSpeakers0.png" /></td><td>Massachusetts Alliance for Portuguese Speakers</td></tr><tr><td style="text-align: center;"><img src="legend/PeoplewhoseprimarylanguageisntEnglish_10_SpanishAmericanCenter1.png" /></td><td>Spanish American Center</td></tr></table>': layer_PeoplewhoseprimarylanguageisntEnglish_10,'People with Disabilities<br /><table><tr><td style="text-align: center;"><img src="legend/PeoplewithDisabilities_9_Advocates0.png" /></td><td>Advocates</td></tr><tr><td style="text-align: center;"><img src="legend/PeoplewithDisabilities_9_BAMSI1.png" /></td><td>BAMSI</td></tr><tr><td style="text-align: center;"><img src="legend/PeoplewithDisabilities_9_SevenHills2.png" /></td><td>Seven Hills</td></tr><tr><td style="text-align: center;"><img src="legend/PeoplewithDisabilities_9_StavrosCenterforIndependentLiving3.png" /></td><td>Stavros Center for Independent Living</td></tr></table>': layer_PeoplewithDisabilities_9,'People with Disabilities (Statewide) <br /><table><tr><td style="text-align: center;"><img src="legend/PeoplewithDisabilitiesStatewide_8_BlackAutismCoalition0.png" /></td><td>Black Autism Coalition</td></tr><tr><td style="text-align: center;"><img src="legend/PeoplewithDisabilitiesStatewide_8_DEAFInc1.png" /></td><td>DEAF Inc</td></tr><tr><td style="text-align: center;"><img src="legend/PeoplewithDisabilitiesStatewide_8_DisabilityPolicyConsortium2.png" /></td><td>Disability Policy Consortium</td></tr><tr><td style="text-align: center;"><img src="legend/PeoplewithDisabilitiesStatewide_8_FundacionCEMDPCD3.png" /></td><td>Fundacion CEMDPCD</td></tr></table>': layer_PeoplewithDisabilitiesStatewide_8,'Rural Residents<br /><table><tr><td style="text-align: center;"><img src="legend/RuralResidents_7_HilltownCDC0.png" /></td><td>Hilltown CDC</td></tr><tr><td style="text-align: center;"><img src="legend/RuralResidents_7_MaryLyonFoundation1.png" /></td><td>Mary Lyon Foundation</td></tr><tr><td style="text-align: center;"><img src="legend/RuralResidents_7_NorthQuabbinCommunityCoalition2.png" /></td><td>North Quabbin Community Coalition</td></tr><tr><td style="text-align: center;"><img src="legend/RuralResidents_7_NorthernBerkshireCommunityCoalition3.png" /></td><td>Northern Berkshire Community Coalition</td></tr><tr><td style="text-align: center;"><img src="legend/RuralResidents_7_QuaboagValleyCDC4.png" /></td><td>Quaboag Valley CDC</td></tr><tr><td style="text-align: center;"><img src="legend/RuralResidents_7_VolunteersinMedicine5.png" /></td><td>Volunteers in Medicine</td></tr></table>': layer_RuralResidents_7,'Unhoused People<br /><table><tr><td style="text-align: center;"><img src="legend/UnhousedPeople_6_Justice4Housing0.png" /></td><td>Justice 4 Housing</td></tr></table>': layer_UnhousedPeople_6,'Veterans<br /><table><tr><td style="text-align: center;"><img src="legend/Veterans_5_NewEnglandCenterandHomeforVeterans0.png" /></td><td>New England Center and Home for Veterans</td></tr></table>': layer_Veterans_5,'Young Parents<br /><table><tr><td style="text-align: center;"><img src="legend/YoungParents_4_HealthyFamilies0.png" /></td><td>Healthy Families</td></tr><tr><td style="text-align: center;"><img src="legend/YoungParents_4_ROCA1.png" /></td><td>ROCA</td></tr></table>': layer_YoungParents_4,'Youth and Young Adults (14-24)<br /><table><tr><td style="text-align: center;"><img src="legend/YouthandYoungAdults1424_3_18Degrees0.png" /></td><td>18 Degrees</td></tr><tr><td style="text-align: center;"><img src="legend/YouthandYoungAdults1424_3_JusticeResourceInstitute1.png" /></td><td>Justice Resource Institute</td></tr><tr><td style="text-align: center;"><img src="legend/YouthandYoungAdults1424_3_WorcesterYouthCenter2.png" /></td><td>Worcester Youth Center</td></tr></table>': layer_YouthandYoungAdults1424_3,'<img src="legend/MAOutline_2.png" /> MA Outline ': layer_MAOutline_2,'<img src="legend/MAMunicipalitiesOutline_1.png" /> MA Municipalities Outline ': layer_MAMunicipalitiesOutline_1,"Positron": layer_Positron_0,},{collapsed:false}).addTo(map);
+        setBounds();
+        var mapDiv = document.getElementById('map');
+        var row = document.createElement('div');
+        row.className="row";
+        row.id="all";
+        row.style.height = "100%";
+        var col1 = document.createElement('div');
+        col1.className="col9";
+        col1.id = "mapWindow";
+        col1.style.height = "99%";
+        col1.style.width = "80%";
+        col1.style.display = "inline-block";
+        var col2 = document.createElement('div');
+        col2.className="col3";
+        col2.id = "menu";
+        col2.style.display = "inline-block";
+        mapDiv.parentNode.insertBefore(row, mapDiv);
+        document.getElementById("all").appendChild(col1);
+        document.getElementById("all").appendChild(col2);
+        col1.appendChild(mapDiv)
+        var Filters = {"Organization Name": "str"};
+        function filterFunc() {
+          map.eachLayer(function(lyr){
+          if ("options" in lyr && "dataVar" in lyr["options"]){
+            features = this[lyr["options"]["dataVar"]].features.slice(0);
+            try{
+              for (key in Filters){
+                keyS = key.replace(/[^a-zA-Z0-9_]/g, "")
+                if (Filters[key] == "str" || Filters[key] == "bool"){
+                  var selection = [];
+                  var options = document.getElementById("sel_" + keyS).options
+                  for (var i=0; i < options.length; i++) {
+                    if (options[i].selected) selection.push(options[i].value);
+                  }
+                    try{
+                      if (key in features[0].properties){
+                        for (i = features.length - 1;
+                          i >= 0; --i){
+                          if (selection.indexOf(
+                          features[i].properties[key])<0
+                          && selection.length>0) {
+                          features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                  }
+                }
+                if (Filters[key] == "int"){
+                  sliderVals =  document.getElementById(
+                    "div_" + keyS).noUiSlider.get();
+                  try{
+                    if (key in features[0].properties){
+                    for (i = features.length - 1; i >= 0; --i){
+                      if (parseInt(features[i].properties[key])
+                          < sliderVals[0]
+                          || parseInt(features[i].properties[key])
+                          > sliderVals[1]){
+                            features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                    }
+                  }
+                if (Filters[key] == "real"){
+                  sliderVals =  document.getElementById(
+                    "div_" + keyS).noUiSlider.get();
+                  try{
+                    if (key in features[0].properties){
+                    for (i = features.length - 1; i >= 0; --i){
+                      if (features[i].properties[key]
+                          < sliderVals[0]
+                          || features[i].properties[key]
+                          > sliderVals[1]){
+                            features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                    }
+                  }
+                if (Filters[key] == "date"
+                  || Filters[key] == "datetime"
+                  || Filters[key] == "time"){
+                  try{
+                    if (key in features[0].properties){
+                      HTMLkey = key.replace(/[&\/\\#,+()$~%.'":*?<>{} ]/g, '');
+                      startdate = document.getElementById("dat_" +
+                        HTMLkey + "_date1").value.replace(" ", "T");
+                      enddate = document.getElementById("dat_" +
+                        HTMLkey + "_date2").value.replace(" ", "T");
+                      for (i = features.length - 1; i >= 0; --i){
+                        if (features[i].properties[key] < startdate
+                          || features[i].properties[key] > enddate){
+                          features.splice(i,1);
+                        }
+                      }
+                    }
+                  } catch(err){
+                  }
+                }
+              }
+            } catch(err){
+            }
+          this[lyr["options"]["layerName"]].clearLayers();
+          this[lyr["options"]["layerName"]].addData(features);
+          }
+          })
+        }
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_OrganizationName = document.createElement('div');
+            div_OrganizationName.id = "div_OrganizationName";
+            div_OrganizationName.className= "filterselect";
+            document.getElementById("menu").appendChild(div_OrganizationName);
+            sel_OrganizationName = document.createElement('select');
+            sel_OrganizationName.multiple = true;
+            sel_OrganizationName.size = 10;
+            sel_OrganizationName.id = "sel_OrganizationName";
+            var OrganizationName_options_str = "<option value='' unselected></option>";
+            sel_OrganizationName.onchange = function(){filterFunc()};
+            OrganizationName_options_str  += '<option value="18 Degrees">18 Degrees</option>';
+            OrganizationName_options_str  += '<option value="Advocates">Advocates</option>';
+            OrganizationName_options_str  += '<option value="All Inclusive Support Services">All Inclusive Support Services</option>';
+            OrganizationName_options_str  += '<option value="Asian Task Force Against Domestic Violence">Asian Task Force Against Domestic Violence</option>';
+            OrganizationName_options_str  += '<option value="Authentic Caribbean Foundation">Authentic Caribbean Foundation</option>';
+            OrganizationName_options_str  += '<option value="BAMSI">BAMSI</option>';
+            OrganizationName_options_str  += '<option value="Berkshire Immigrant Center">Berkshire Immigrant Center</option>';
+            OrganizationName_options_str  += '<option value="Black Autism Coalition">Black Autism Coalition</option>';
+            OrganizationName_options_str  += '<option value="Boston Chinatown Neighborhood Center">Boston Chinatown Neighborhood Center</option>';
+            OrganizationName_options_str  += '<option value="Cambodian Mutual Assistance Association">Cambodian Mutual Assistance Association</option>';
+            OrganizationName_options_str  += '<option value="Center for Arabic Culture">Center for Arabic Culture</option>';
+            OrganizationName_options_str  += '<option value="Chappaquiddick Wampanoag Tribe">Chappaquiddick Wampanoag Tribe</option>';
+            OrganizationName_options_str  += '<option value="DEAF Inc">DEAF Inc</option>';
+            OrganizationName_options_str  += '<option value="Disability Policy Consortium">Disability Policy Consortium</option>';
+            OrganizationName_options_str  += '<option value="Enlace de Familias">Enlace de Familias</option>';
+            OrganizationName_options_str  += '<option value="Family Services of the Merrimack Valley">Family Services of the Merrimack Valley</option>';
+            OrganizationName_options_str  += '<option value="Father Bill&apos;s & MainSpring">Father Bill&apos;s & MainSpring</option>';
+            OrganizationName_options_str  += '<option value="Federation for Children with Special Needs">Federation for Children with Special Needs</option>';
+            OrganizationName_options_str  += '<option value="Fundacion CEMDPCD">Fundacion CEMDPCD</option>';
+            OrganizationName_options_str  += '<option value="Haitian American Public Health Initiative">Haitian American Public Health Initiative</option>';
+            OrganizationName_options_str  += '<option value="Haitian Community Partners Foundation">Haitian Community Partners Foundation</option>';
+            OrganizationName_options_str  += '<option value="Health Imperatives">Health Imperatives</option>';
+            OrganizationName_options_str  += '<option value="Healthy Families">Healthy Families</option>';
+            OrganizationName_options_str  += '<option value="Herring Pond Wampanoag Tribe">Herring Pond Wampanoag Tribe</option>';
+            OrganizationName_options_str  += '<option value="Hilltown CDC">Hilltown CDC</option>';
+            OrganizationName_options_str  += '<option value="Immigrants Assistance Center, Inc.">Immigrants Assistance Center, Inc.</option>';
+            OrganizationName_options_str  += '<option value="Islamic Society of Boston CC">Islamic Society of Boston CC</option>';
+            OrganizationName_options_str  += '<option value="Justice 4 Housing">Justice 4 Housing</option>';
+            OrganizationName_options_str  += '<option value="Justice Resource Institute">Justice Resource Institute</option>';
+            OrganizationName_options_str  += '<option value="LGBT Elders of Color">LGBT Elders of Color</option>';
+            OrganizationName_options_str  += '<option value="LGBTQ Asylum Task Force">LGBTQ Asylum Task Force</option>';
+            OrganizationName_options_str  += '<option value="La Colaborativa">La Colaborativa</option>';
+            OrganizationName_options_str  += '<option value="Latino Education Institute">Latino Education Institute</option>';
+            OrganizationName_options_str  += '<option value="Latinx in Action">Latinx in Action</option>';
+            OrganizationName_options_str  += '<option value="Mary Lyon Foundation">Mary Lyon Foundation</option>';
+            OrganizationName_options_str  += '<option value="Massachusetts Alliance for Portuguese Speakers">Massachusetts Alliance for Portuguese Speakers</option>';
+            OrganizationName_options_str  += '<option value="Men of Color Health Awareness (MOCHA)">Men of Color Health Awareness (MOCHA)</option>';
+            OrganizationName_options_str  += '<option value="Multicultural AIDS Coalition">Multicultural AIDS Coalition</option>';
+            OrganizationName_options_str  += '<option value="Muslim Community Link">Muslim Community Link</option>';
+            OrganizationName_options_str  += '<option value="New American Association of MA">New American Association of MA</option>';
+            OrganizationName_options_str  += '<option value="New England Center and Home for Veterans">New England Center and Home for Veterans</option>';
+            OrganizationName_options_str  += '<option value="Nipmuc Nation">Nipmuc Nation</option>';
+            OrganizationName_options_str  += '<option value="North American Indian Center of Boston">North American Indian Center of Boston</option>';
+            OrganizationName_options_str  += '<option value="North Quabbin Community Coalition">North Quabbin Community Coalition</option>';
+            OrganizationName_options_str  += '<option value="Northern Berkshire Community Coalition">Northern Berkshire Community Coalition</option>';
+            OrganizationName_options_str  += '<option value="Ohketeau Cultural Center">Ohketeau Cultural Center</option>';
+            OrganizationName_options_str  += '<option value="Outer Cape Health Services			">Outer Cape Health Services			</option>';
+            OrganizationName_options_str  += '<option value="PureSpark">PureSpark</option>';
+            OrganizationName_options_str  += '<option value="Quaboag Valley CDC">Quaboag Valley CDC</option>';
+            OrganizationName_options_str  += '<option value="Quincy Asian Resources Inc QARI">Quincy Asian Resources Inc QARI</option>';
+            OrganizationName_options_str  += '<option value="ROCA">ROCA</option>';
+            OrganizationName_options_str  += '<option value="Seven Hills">Seven Hills</option>';
+            OrganizationName_options_str  += '<option value="Somali Parents Advocacy Center for Education (SPACE)">Somali Parents Advocacy Center for Education (SPACE)</option>';
+            OrganizationName_options_str  += '<option value="Southeast Asian Coalition of Central MA">Southeast Asian Coalition of Central MA</option>';
+            OrganizationName_options_str  += '<option value="Spanish American Center">Spanish American Center</option>';
+            OrganizationName_options_str  += '<option value="Stavros Center for Independent Living">Stavros Center for Independent Living</option>';
+            OrganizationName_options_str  += '<option value="Tapestry Health		">Tapestry Health		</option>';
+            OrganizationName_options_str  += '<option value="VietAID">VietAID</option>';
+            OrganizationName_options_str  += '<option value="Volunteers in Medicine">Volunteers in Medicine</option>';
+            OrganizationName_options_str  += '<option value="Worcester Youth Center">Worcester Youth Center</option>';
+            sel_OrganizationName.innerHTML = OrganizationName_options_str;
+            div_OrganizationName.appendChild(sel_OrganizationName);
+            var lab_OrganizationName = document.createElement('div');
+            lab_OrganizationName.innerHTML = 'Organization Name';
+            lab_OrganizationName.className = 'filterlabel';
+            div_OrganizationName.appendChild(lab_OrganizationName);
+            var reset_OrganizationName = document.createElement('div');
+            reset_OrganizationName.innerHTML = 'clear filter';
+            reset_OrganizationName.className = 'filterlabel';
+            reset_OrganizationName.onclick = function() {
+                var options = document.getElementById("sel_OrganizationName").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_OrganizationName.appendChild(reset_OrganizationName);
+        </script>
+    </body>
+</html>
